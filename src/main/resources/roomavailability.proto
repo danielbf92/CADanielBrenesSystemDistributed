@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielMeetingRoomBookingSystem";
+option java_outer_classname = "CheckRoomServiceImpl";
+
+package cadanielMeetingRoomBookingSystem;
+
+service CheckRoomService {
+   rpc checkRoomAvailability(RoomAvailabilityRequest) returns (RoomAvailabilityResponse);
+}
+
+message RoomAvailabilityRequest {
+   string roomNumber = 1;
+}
+
+message RoomAvailabilityResponse {
+   bool available = 1;
+}
