@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielMeetingRoomBookingSystem";
+option java_outer_classname = "RoomBookingServiceImpl";
+
+package cadanielMeetingRoomBookingSystem;
+
+service RoomBookingService {
+   rpc bookRoom(stream RoomBookingRequest) returns (RoomBookingResponse);
+}
+
+message RoomBookingRequest {
+   string date = 1;
+   string time = 2;
+   string duration = 3;
+   string requirements = 4;
+}
+
+
+message RoomBookingResponse {
+  string confirmation = 1;
+}

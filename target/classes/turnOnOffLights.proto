@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielLightingSystem";
+option java_outer_classname = "TurnOnOffLightsImpl";
+
+package cadanielLightingSystem;
+
+service TurnOnOffLights {
+   rpc checkLights(CheckLightsRequest) returns (CheckLightsResponse);
+}
+
+message CheckLightsRequest {
+   string roomNumber = 1;
+}
+
+message CheckLightsResponse {
+   bool available = 1;
+}
