@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import grpc.cadanielLightingSystem.CheckLightsRequest;
+import grpc.cadanielLightingSystem.CheckLightsResponse;
+import grpc.cadanielLightingSystem.TurnOnOffLightsGrpc;
 import grpc.cadanielMeetingRoomBookingSystem.CheckRoomServiceGrpc;
 import grpc.cadanielMeetingRoomBookingSystem.RoomAvailabilityRequest;
 import grpc.cadanielMeetingRoomBookingSystem.RoomAvailabilityResponse;
@@ -108,6 +111,34 @@ public class ControllerGUI implements ActionListener{
 		return panel;
 	}
 
+	private JPanel getService3JPanel() {
+
+		JPanel panel = new JPanel();
+
+		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+
+		JLabel label = new JLabel("Enter number of room between 1 to 5 and see if the lights are ON - OFF")	;
+		panel.add(label);
+		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+		entry1 = new JTextField("",20);
+		panel.add(entry1);
+		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+		JButton button = new JButton("CheckLightsService");
+		button.addActionListener(this);
+		panel.add(button);
+		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+		reply1 = new JTextField("", 20);
+		reply1 .setEditable(false);
+		panel.add(reply1 );
+
+		panel.setLayout(boxlayout);
+
+		return panel;
+
+	}
+
     public static void main(String[] args) {
 
 		ControllerGUI gui = new ControllerGUI();
@@ -133,6 +164,7 @@ public class ControllerGUI implements ActionListener{
 	
 		panel.add( getService1JPanel() );
 		panel.add( getService2JPanel() );
+		panel.add( getService3JPanel() );
 
         // Set size for the frame
 		frame.setSize(300, 300);
@@ -222,7 +254,30 @@ public class ControllerGUI implements ActionListener{
 			//retreving reply from service
 			// Signal that we are done sending requests  
             requestObserver.onCompleted();
-        }
+        } else if (label.equals("CheckLightsService")) {
+			System.out.println("CheckLightsService to be called ...");
+
+		
+			/*
+			 * 
+			 */
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053).usePlaintext().build();
+
+			TurnOnOffLightsGrpc.TurnOnOffLightsBlockingStub stub = TurnOnOffLightsGrpc.newBlockingStub(channel);
+
+            String userInput = entry1.getText();
+
+            CheckLightsRequest request = CheckLightsRequest.newBuilder().setRoomNumber(userInput).build();
+
+            CheckLightsResponse response = stub.checkLights(request);
+
+            // Check if the room is available or not
+            if (response.getAvailable()) {
+                reply1.setText("Room " + userInput + " is with the lights ON");
+            } else {
+                reply1.setText("Room " + userInput + " is with the lights OFF");
+            }
+		}
     }
 
 }
