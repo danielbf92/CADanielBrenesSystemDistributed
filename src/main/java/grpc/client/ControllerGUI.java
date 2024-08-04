@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import grpc.cadanielLightingSystem.BrightnessRequest;
@@ -26,6 +27,9 @@ import grpc.cadanielMeetingRoomBookingSystem.RoomAvailabilityResponse;
 import grpc.cadanielMeetingRoomBookingSystem.RoomBookingRequest;
 import grpc.cadanielMeetingRoomBookingSystem.RoomBookingResponse;
 import grpc.cadanielMeetingRoomBookingSystem.RoomBookingServiceGrpc;
+import grpc.cadanielSecuritySystem.CamaraServiceGrpc;
+import grpc.cadanielSecuritySystem.CheckCamaraRequest;
+import grpc.cadanielSecuritySystem.CheckCamaraResponse;
 import grpc.cadanielSecuritySystem.CheckDoorsRequest;
 import grpc.cadanielSecuritySystem.CheckDoorsResponse;
 import grpc.cadanielSecuritySystem.LockUnlockDoorsGrpc;
@@ -36,11 +40,12 @@ import io.grpc.stub.StreamObserver;
 
 public class ControllerGUI implements ActionListener{
 
-    private JTextField entry1, reply1;
-	private JTextField entryDate, entryTime, entryDuration, entryReq, reply2;
-	private JTextField entry3, reply3;
-	private JTextField entry4, reply4;
-	private JTextField entryBrightnessLevel, entryLocation, reply5;
+    private JTextField entryRoom, replyRoom;
+	private JTextField entryDoor, replyDoor;
+	private JTextField entryLight, replyLight;
+	private JTextField entryDate, entryTime, entryDuration, entryReq, replyBooking;
+	private JTextField entryCamaraID, replyCamara;
+	private JTextField entryBrightnessLevel, entryLocation, replyBrightness;
 
     private JPanel getService1JPanel() {
 
@@ -51,8 +56,8 @@ public class ControllerGUI implements ActionListener{
 		JLabel label = new JLabel("Enter number of room between 1 to 5")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
-		entry1 = new JTextField("",20);
-		panel.add(entry1);
+		entryRoom = new JTextField("",20);
+		panel.add(entryRoom);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		JButton button = new JButton("CheckRoomService");
@@ -60,9 +65,9 @@ public class ControllerGUI implements ActionListener{
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
-		reply1 = new JTextField("", 20);
-		reply1 .setEditable(false);
-		panel.add(reply1 );
+		replyRoom = new JTextField("", 20);
+		replyRoom .setEditable(false);
+		panel.add(replyRoom );
 
 		panel.setLayout(boxlayout);
 
@@ -110,9 +115,9 @@ public class ControllerGUI implements ActionListener{
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 	
-		reply2 = new JTextField("", 10);
-		reply2.setEditable(false);
-		panel.add(reply2);
+		replyBooking = new JTextField("", 10);
+		replyBooking.setEditable(false);
+		panel.add(replyBooking);
 	
 		panel.setLayout(boxlayout);
 		return panel;
@@ -127,8 +132,8 @@ public class ControllerGUI implements ActionListener{
 		JLabel label = new JLabel("Enter number of room between 1 to 5 and see if the lights are ON - OFF")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
-		entry1 = new JTextField("",20);
-		panel.add(entry1);
+		entryLight = new JTextField("",20);
+		panel.add(entryLight);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		JButton button = new JButton("CheckLightsService");
@@ -136,9 +141,9 @@ public class ControllerGUI implements ActionListener{
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
-		reply1 = new JTextField("", 20);
-		reply1 .setEditable(false);
-		panel.add(reply1 );
+		replyLight = new JTextField("", 20);
+		replyLight .setEditable(false);
+		panel.add(replyLight );
 
 		panel.setLayout(boxlayout);
 
@@ -155,8 +160,8 @@ public class ControllerGUI implements ActionListener{
 		JLabel label = new JLabel("Enter number of room between 1 to 5 and see if the doors are UnLock - Lock")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
-		entry1 = new JTextField("",20);
-		panel.add(entry1);
+		entryDoor = new JTextField("",20);
+		panel.add(entryDoor);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
 		JButton button = new JButton("CheckDoorsService");
@@ -164,9 +169,9 @@ public class ControllerGUI implements ActionListener{
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
 
-		reply1 = new JTextField("", 20);
-		reply1 .setEditable(false);
-		panel.add(reply1 );
+		replyDoor = new JTextField("", 20);
+		replyDoor .setEditable(false);
+		panel.add(replyDoor );
 
 		panel.setLayout(boxlayout);
 
@@ -199,9 +204,34 @@ public class ControllerGUI implements ActionListener{
 		panel.add(button);
 		panel.add(Box.createRigidArea(new Dimension(10, 0)));
 	
-		reply5 = new JTextField("", 10);
-		reply5.setEditable(false);
-		panel.add(reply5);
+		replyBrightness = new JTextField("", 10);
+		replyBrightness.setEditable(false);
+		panel.add(replyBrightness);
+	
+		panel.setLayout(boxlayout);
+		return panel;
+	}
+
+	private JPanel getService6JPanel() {
+		JPanel panel = new JPanel();
+		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+		
+		// Add labels and text fields
+		JLabel camaraIDlabel = new JLabel("Enter camara ID");
+		panel.add(camaraIDlabel);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		entryCamaraID = new JTextField("", 10);
+		panel.add(entryCamaraID);
+	
+		JButton button = new JButton("CamaraService");
+		button.addActionListener(this);
+		panel.add(button);
+		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+	
+		replyCamara = new JTextField("", 10);
+		replyCamara.setEditable(false);
+		panel.add(replyCamara);
 	
 		panel.setLayout(boxlayout);
 		return panel;
@@ -235,6 +265,7 @@ public class ControllerGUI implements ActionListener{
 		panel.add( getService3JPanel() );
 		panel.add( getService4JPanel() );
 		panel.add( getService5JPanel() );
+		panel.add( getService6JPanel() );
 
         // Set size for the frame
 		frame.setSize(300, 300);
@@ -262,7 +293,7 @@ public class ControllerGUI implements ActionListener{
 
 			CheckRoomServiceGrpc.CheckRoomServiceBlockingStub stub = CheckRoomServiceGrpc.newBlockingStub(channel);
 
-            String userInput = entry1.getText();
+            String userInput = entryRoom.getText();
 
             RoomAvailabilityRequest request = RoomAvailabilityRequest.newBuilder().setRoomNumber(userInput).build();
 
@@ -270,9 +301,9 @@ public class ControllerGUI implements ActionListener{
 
             // Check if the room is available or not
             if (response.getAvailable()) {
-                reply1.setText("Room " + userInput + " is available");
+                replyRoom.setText("Room " + userInput + " is available");
             } else {
-                reply1.setText("Room " + userInput + " is not available");
+                replyRoom.setText("Room " + userInput + " is not available");
             }
 
             //reply1.setText(String.valueOf(response.getAvailable()));
@@ -303,23 +334,24 @@ public class ControllerGUI implements ActionListener{
 				@Override  
 				public void onCompleted() {
 					System.out.println("All bookings processed.");
+					channel.shutdown();
 				}
 			};
 
 			// Initiate the stream  
         	StreamObserver<RoomBookingRequest> requestObserver = Stub.bookRoom(responseObserver);
 
-			String userInput1 = entryDate.getText();
-			String userInput2 = entryTime.getText();
-			String userInput3 = entryDuration.getText();
-			String userInput4 = entryReq.getText();
+			String date = entryDate.getText();
+			String time = entryTime.getText();
+			String duration = entryDuration.getText();
+			String requirements = entryReq.getText();
 			
 			//preparing message to send
 			requestObserver.onNext(RoomBookingRequest.newBuilder()
-											.setDate(userInput1)
-											.setTime(userInput2)
-											.setDuration(userInput3)
-											.setRequirements(userInput4).build());
+											.setDate(date)
+											.setTime(time)
+											.setDuration(duration)
+											.setRequirements(requirements).build());
 
 			//retreving reply from service
 			// Signal that we are done sending requests  
@@ -335,7 +367,7 @@ public class ControllerGUI implements ActionListener{
 
 			TurnOnOffLightsGrpc.TurnOnOffLightsBlockingStub stub = TurnOnOffLightsGrpc.newBlockingStub(channel);
 
-            String userInput = entry1.getText();
+            String userInput = entryLight.getText();
 
             CheckLightsRequest request = CheckLightsRequest.newBuilder().setRoomNumber(userInput).build();
 
@@ -343,9 +375,9 @@ public class ControllerGUI implements ActionListener{
 
             // Check if the room is available or not
             if (response.getAvailable()) {
-                reply1.setText("Room " + userInput + " is with the lights ON");
+                replyLight.setText("Room " + userInput + " is with the lights ON");
             } else {
-                reply1.setText("Room " + userInput + " is with the lights OFF");
+                replyLight.setText("Room " + userInput + " is with the lights OFF");
             }
 		} else if (label.equals("CheckDoorsService")) {
 			System.out.println("CheckLightsService to be called ...");
@@ -358,7 +390,7 @@ public class ControllerGUI implements ActionListener{
 
 			LockUnlockDoorsGrpc.LockUnlockDoorsBlockingStub stub = LockUnlockDoorsGrpc.newBlockingStub(channel);
 
-            String userInput = entry1.getText();
+            String userInput = entryDoor.getText();
 
             CheckDoorsRequest request = CheckDoorsRequest.newBuilder().setRoomNumber(userInput).build();
 
@@ -366,9 +398,9 @@ public class ControllerGUI implements ActionListener{
 
             // Check if the room is available or not
             if (response.getAvailable()) {
-                reply1.setText("Room " + userInput + " is with the Doors Unlock");
+                replyDoor.setText("Room " + userInput + " is with the Doors Unlock");
             } else {
-                reply1.setText("Room " + userInput + " is with the Doors Lock");
+                replyDoor.setText("Room " + userInput + " is with the Doors Lock");
             }
 		} else if (label.equals("AdjustBrightnessService")) {
 			System.out.println("AdjustBrightnessService to be invoked ...");
@@ -439,6 +471,43 @@ public class ControllerGUI implements ActionListener{
 				requestObserver.onCompleted();
 				channel.shutdown();
 			}
+		} else if (label.equals("CamaraService")) {
+			System.out.println("CamaraService to be invoked ...");
+
+			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50056).usePlaintext().build();
+			CamaraServiceGrpc.CamaraServiceStub stub = CamaraServiceGrpc.newStub(channel);
+
+			// Prepare the StreamObserver for the response  
+			StreamObserver<CheckCamaraResponse> responseObserver = new StreamObserver<CheckCamaraResponse>() {
+				@Override  
+				public void onNext(CheckCamaraResponse response) {
+					System.out.printf("Received data from Camera %s: %s%n", response.getCamaraId(), response.getData());
+					// Update the reply text field with the latest data
+					SwingUtilities.invokeLater(() -> replyCamara.setText("Latest: " + response.getData()));
+				}
+
+				@Override  
+				public void onError(Throwable t) {
+					System.err.println("Error from server: " + t.getMessage());
+					// Update the reply text field with the error
+					SwingUtilities.invokeLater(() -> replyCamara.setText("Error: " + t.getMessage()));
+				}
+
+				@Override  
+				public void onCompleted() {
+					System.out.println("All camaras processed.");
+					SwingUtilities.invokeLater(() -> replyCamara.setText("Streaming completed."));
+				}
+			};
+
+			// Create and send the request with the camera ID
+			String cameraId = entryCamaraID.getText().trim();
+			CheckCamaraRequest request = CheckCamaraRequest.newBuilder()
+															.setCamaraId(cameraId)
+															.build();
+
+			// Invoke the streaming method
+			stub.checkCamara(request, responseObserver);
 		}
     }
 
