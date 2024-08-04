@@ -1,1 +1,5 @@
+grpc\cadanielLightingSystem\BrightnessServiceGrpc$1.class
 grpc\cadanielMeetingRoomBookingSystem\CheckRoomServiceGrpc$1.class
+grpc\cadanielSecuritySystem\LockUnlockDoorsGrpc$1.class
+grpc\cadanielMeetingRoomBookingSystem\RoomBookingServiceGrpc$1.class
+grpc\cadanielLightingSystem\TurnOnOffLightsGrpc$1.class

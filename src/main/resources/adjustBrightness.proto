@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielLightingSystem";
+option java_outer_classname = "BrightnessServiceImpl";
+
+package cadanielLightingSystem;
+
+service BrightnessService {
+   rpc adjustBrightness(stream BrightnessRequest) returns (stream BrightnessResponse);
+}
+
+message BrightnessRequest {
+  int32 brightness_level = 1;
+  string location = 2;
+}
+
+message BrightnessResponse {
+  string location = 1;
+  bool success = 2;
+  string message = 3;  // Message indicating success or failure
+}
