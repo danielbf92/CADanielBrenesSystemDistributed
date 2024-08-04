@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielSecuritySystem";
+option java_outer_classname = "LockUnlockDoorsImpl";
+
+package cadanielSecuritySystem;
+
+service LockUnlockDoors {
+   rpc checkDoors(CheckDoorsRequest) returns (CheckDoorsResponse);
+}
+
+message CheckDoorsRequest {
+   string roomNumber = 1;
+}
+
+message CheckDoorsResponse {
+   bool available = 1;
+}
