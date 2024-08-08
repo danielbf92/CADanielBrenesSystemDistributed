@@ -1,10 +1,15 @@
 package grpc.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,8 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import grpc.cadanielLightingSystem.BrightnessRequest;
 import grpc.cadanielLightingSystem.BrightnessResponse;
@@ -49,10 +55,16 @@ public class ControllerGUI implements ActionListener{
 
     private JPanel getService1JPanel() {
 
-		JPanel panel = new JPanel();
-
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
-
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Check Room Service Unary");
+		// Set the title color
+		titleBorder.setTitleColor(Color.BLUE);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
+		
 		JLabel label = new JLabel("Enter number of room between 1 to 5")	;
 		panel.add(label);
 		panel.add(Box.createRigidArea(new Dimension(20, 0)));
@@ -69,15 +81,22 @@ public class ControllerGUI implements ActionListener{
 		replyRoom .setEditable(false);
 		panel.add(replyRoom );
 
-		panel.setLayout(boxlayout);
+		//panel.setLayout(boxlayout);
 
 		return panel;
 
 	}
 
 	private JPanel getService2JPanel() {
-		JPanel panel = new JPanel();
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Room Booking Service Client Streaming");
+		// Set the title color
+		titleBorder.setTitleColor(Color.RED);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
 		
 		// Add labels and text fields
 		JLabel datelabel = new JLabel("Enter date you would like to book: (MM-DD-YYYY)");
@@ -119,33 +138,46 @@ public class ControllerGUI implements ActionListener{
 		replyBooking.setEditable(false);
 		panel.add(replyBooking);
 	
-		panel.setLayout(boxlayout);
+		//panel.setLayout(boxlayout);
 		return panel;
 	}
 
 	private JPanel getService3JPanel() {
 
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Check Lights Service Unary");
+		// Set the title color
+		titleBorder.setTitleColor(Color.CYAN);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
 
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+		// Configure brightness level label and input
+        JLabel LightsLevel = new JLabel("Enter number of room between 1 to 5 and see if the lights are ON - OFF");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(LightsLevel, gbc);
 
-		JLabel label = new JLabel("Enter number of room between 1 to 5 and see if the lights are ON - OFF")	;
-		panel.add(label);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
-		entryLight = new JTextField("",20);
-		panel.add(entryLight);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+		entryLight = new JTextField(10);
+        gbc.gridx = 1;
+        panel.add(entryLight, gbc);
 
-		JButton button = new JButton("CheckLightsService");
-		button.addActionListener(this);
-		panel.add(button);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+		// Configure button
+        JButton button = new JButton("CheckLightsService");
+        button.addActionListener(this);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Make button span two columns
+        panel.add(button, gbc);
 
-		replyLight = new JTextField("", 20);
-		replyLight .setEditable(false);
-		panel.add(replyLight );
-
-		panel.setLayout(boxlayout);
+		// Configure reply field
+        replyLight = new JTextField(20);
+        replyLight.setEditable(false);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(replyLight, gbc);
 
 		return panel;
 
@@ -153,88 +185,129 @@ public class ControllerGUI implements ActionListener{
 
 	private JPanel getService4JPanel() {
 
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Check Doors Service Unary");
+		// Set the title color
+		titleBorder.setTitleColor(Color.ORANGE);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
 
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
+		// Configure brightness level label and input
+        JLabel DoorsLevel = new JLabel("Enter number of room between 1 to 5 and see if the doors are UnLock - Lock");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(DoorsLevel, gbc);
+        
+        entryDoor = new JTextField(10);
+        gbc.gridx = 1;
+        panel.add(entryDoor, gbc);
 
-		JLabel label = new JLabel("Enter number of room between 1 to 5 and see if the doors are UnLock - Lock")	;
-		panel.add(label);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
-		entryDoor = new JTextField("",20);
-		panel.add(entryDoor);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+		// Configure button
+        JButton button = new JButton("CheckDoorsService");
+        button.addActionListener(this);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Make button span two columns
+        panel.add(button, gbc);
 
-		JButton button = new JButton("CheckDoorsService");
-		button.addActionListener(this);
-		panel.add(button);
-		panel.add(Box.createRigidArea(new Dimension(20, 0)));
+		// Configure reply field
+        replyDoor = new JTextField(20);
+        replyDoor.setEditable(false);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(replyDoor, gbc);
 
-		replyDoor = new JTextField("", 20);
-		replyDoor .setEditable(false);
-		panel.add(replyDoor );
-
-		panel.setLayout(boxlayout);
-
-		return panel;
-
+        return panel;
 	}
 	private JPanel getService5JPanel() {
-		JPanel panel = new JPanel();
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
-		
-		// Add labels and text fields
-		JLabel brightnessLevel = new JLabel("Enter brightness level (0-100) or -1 to exit:");
-		panel.add(brightnessLevel);
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Adjust Brightness Service Bi Directional");
+		// Set the title color
+		titleBorder.setTitleColor(Color.BLACK);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
 
-		entryBrightnessLevel = new JTextField("", 10);
-		panel.add(entryBrightnessLevel); // Add entryTime TEXTFIELD
-	
-		JLabel locationlabel = new JLabel("Enter Location");
-		panel.add(locationlabel);
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
-		
-		entryLocation = new JTextField("", 10);
-		panel.add(entryLocation); // Add entryTime TEXTFIELD
-	
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
-	
-		JButton button = new JButton("AdjustBrightnessService");
-		button.addActionListener(this);
-		panel.add(button);
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
-	
-		replyBrightness = new JTextField("", 10);
-		replyBrightness.setEditable(false);
-		panel.add(replyBrightness);
-	
-		panel.setLayout(boxlayout);
-		return panel;
+        // Configure brightness level label and input
+        JLabel brightnessLevel = new JLabel("Enter brightness level (0-100) or -1 to exit:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(brightnessLevel, gbc);
+        
+        entryBrightnessLevel = new JTextField(10);
+        gbc.gridx = 1;
+        panel.add(entryBrightnessLevel, gbc);
+
+        // Configure location label and input
+        JLabel locationlabel = new JLabel("Enter Location:");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(locationlabel, gbc);
+        
+        entryLocation = new JTextField(10);
+        gbc.gridx = 1;
+        panel.add(entryLocation, gbc);
+
+        // Configure button
+        JButton button = new JButton("AdjustBrightnessService");
+        button.addActionListener(this);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Make button span two columns
+        panel.add(button, gbc);
+
+        // Configure reply field
+        replyBrightness = new JTextField(20);
+        replyBrightness.setEditable(false);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(replyBrightness, gbc);
+
+        return panel;
 	}
 
 	private JPanel getService6JPanel() {
-		JPanel panel = new JPanel();
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.X_AXIS);
-		
-		// Add labels and text fields
-		JLabel camaraIDlabel = new JLabel("Enter camara ID");
-		panel.add(camaraIDlabel);
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
+		JPanel panel = new JPanel(new GridBagLayout());
+		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Camara Service Server Streaming");
+		// Set the title color
+		titleBorder.setTitleColor(Color.YELLOW);
+		// Set the border to the panel
+		panel.setBorder(titleBorder);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10); // Add space between components
+        gbc.anchor = GridBagConstraints.WEST; // Align to the left
 
-		entryCamaraID = new JTextField("", 10);
-		panel.add(entryCamaraID);
-	
-		JButton button = new JButton("CamaraService");
-		button.addActionListener(this);
-		panel.add(button);
-		panel.add(Box.createRigidArea(new Dimension(10, 0)));
-	
-		replyCamara = new JTextField("", 10);
-		replyCamara.setEditable(false);
-		panel.add(replyCamara);
-	
-		panel.setLayout(boxlayout);
-		return panel;
+        // Configure camera ID label and input
+        JLabel cameraIDLabel = new JLabel("Enter camera ID:");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(cameraIDLabel, gbc);
+        
+        entryCamaraID = new JTextField(10);
+        gbc.gridx = 1;
+        panel.add(entryCamaraID, gbc);
+
+        // Configure camera service button
+        JButton button = new JButton("CamaraService");
+        button.addActionListener(this);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2; // Make button span two columns
+        panel.add(button, gbc);
+
+        // Configure reply field
+        replyCamara = new JTextField(20);
+        replyCamara.setEditable(false);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        panel.add(replyCamara, gbc);
+
+        return panel;
 	}
 
     public static void main(String[] args) {
@@ -246,32 +319,33 @@ public class ControllerGUI implements ActionListener{
 
     private void build() { 
 
-		JFrame frame = new JFrame("CA Daniel B - Device office smarted");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame frame = new JFrame("CA Daniel B - Device Office Smart");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Set the panel to add buttons
-		JPanel panel = new JPanel();
+        // Main panel with vertical BoxLayout
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // margin for main panel
 
-		// Set the BoxLayout to be X_AXIS: from left to right
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        mainPanel.add(getService1JPanel());
+        mainPanel.add(getService2JPanel());
+		mainPanel.add( getService3JPanel() );
+		mainPanel.add( getService4JPanel() );
+		mainPanel.add( getService5JPanel() );
+		mainPanel.add( getService6JPanel() );
 
-		panel.setLayout(boxlayout);
+		//Create the message label 
+		JLabel messageLabel = new JLabel("Please check the command line as well as a results");
+		messageLabel.setFont(new Font("Arial", Font.BOLD, 14)); 
+		messageLabel.setForeground(Color.RED); 
+		messageLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		// Set border for the panel
-		panel.setBorder(new EmptyBorder(new Insets(50, 100, 50, 100)));
-	
-		panel.add( getService1JPanel() );
-		panel.add( getService2JPanel() );
-		panel.add( getService3JPanel() );
-		panel.add( getService4JPanel() );
-		panel.add( getService5JPanel() );
-		panel.add( getService6JPanel() );
-
-        // Set size for the frame
-		frame.setSize(300, 300);
+		// Add the message label to the bottom of the main panel  
+		mainPanel.add(Box.createVerticalGlue());  
+		mainPanel.add(messageLabel);
 
 		// Set the window to be visible as the default to be false
-		frame.add(panel);
+		frame.add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -324,6 +398,7 @@ public class ControllerGUI implements ActionListener{
 				@Override  
 				public void onNext(RoomBookingResponse response) {
 					System.out.println("Server response: " + response.getConfirmation());
+					SwingUtilities.invokeLater(() -> replyBooking.setText("Latest: " + response.getConfirmation()));
 				}
 	
 				@Override  
@@ -334,6 +409,7 @@ public class ControllerGUI implements ActionListener{
 				@Override  
 				public void onCompleted() {
 					System.out.println("All bookings processed.");
+					SwingUtilities.invokeLater(() -> replyBooking.setText("Client Streaming completed."));
 					channel.shutdown();
 				}
 			};
@@ -418,16 +494,19 @@ public class ControllerGUI implements ActionListener{
 				@Override  
 				public void onNext(BrightnessResponse response) {
 					System.out.println("Server response: " + response.getMessage());
+					SwingUtilities.invokeLater(() -> replyBrightness.setText("Latest: " + response.getMessage()));
 				}
 	
 				@Override  
 				public void onError(Throwable t) {
 					System.err.println("Error from server: " + t.getMessage());
+					SwingUtilities.invokeLater(() -> replyBrightness.setText("Error: " + t.getMessage()));
 				}
 	
 				@Override  
 				public void onCompleted() {
 					System.out.println("Server finished processing.");
+					SwingUtilities.invokeLater(() -> replyBrightness.setText("Bi Directional Streaming completed."));
 				}
 			};
 
@@ -496,7 +575,7 @@ public class ControllerGUI implements ActionListener{
 				@Override  
 				public void onCompleted() {
 					System.out.println("All camaras processed.");
-					SwingUtilities.invokeLater(() -> replyCamara.setText("Streaming completed."));
+					SwingUtilities.invokeLater(() -> replyCamara.setText("Server Streaming completed."));
 				}
 			};
 
