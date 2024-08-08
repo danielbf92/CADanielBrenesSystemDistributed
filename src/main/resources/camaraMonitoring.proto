@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.cadanielSecuritySystem";
+option java_outer_classname = "CamaraServiceImpl";
+
+package cadanielSecuritySystem;
+
+service CamaraService {
+   rpc checkCamara(CheckCamaraRequest) returns (stream CheckCamaraResponse);
+}
+
+message CheckCamaraRequest {
+   string camara_id = 1;
+}
+
+message CheckCamaraResponse {
+   string camara_id = 1;
+   string data = 2;
+}
