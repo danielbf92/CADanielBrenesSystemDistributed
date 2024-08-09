@@ -1,5 +1,5 @@
 How you have to run this project: 
-  - Each service individualy: CheckRoomService.java
+  - Choose one of the service individualy: CheckRoomService.java
                               RoomBookingService.java
                               AdjustBrightnessService.java
                               CheckLightsService.java
