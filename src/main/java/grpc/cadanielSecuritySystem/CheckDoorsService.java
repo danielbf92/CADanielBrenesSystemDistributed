@@ -74,29 +74,44 @@ public class CheckDoorsService extends LockUnlockDoorsImplBase {
             responseObserver.onError(Status.UNAUTHENTICATED.withDescription("Invalid auth token").asRuntimeException());
             return;
         }
+        try{
+            //prepare the value to be set back
+            String roomNumber = request.getRoomNumber();
 
-		//prepare the value to be set back
-        String roomNumber = request.getRoomNumber();
+            boolean isRoomAvailable = checkDoorsMethod(roomNumber);
+            
+            //preparing the response message
+            CheckDoorsResponse reply = CheckDoorsResponse.newBuilder().setAvailable(isRoomAvailable).build();
 
-        boolean isRoomAvailable = checkDoorsMethod(roomNumber);
-		
-		//preparing the response message
-		CheckDoorsResponse reply = CheckDoorsResponse.newBuilder().setAvailable(isRoomAvailable).build();
+            responseObserver.onNext( reply ); 
 
-		responseObserver.onNext( reply ); 
-
-		responseObserver.onCompleted();
+            responseObserver.onCompleted();
+        } catch (NumberFormatException e) {
+            responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("Invalid room number format.").asRuntimeException());
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription("An internal error occurred.").asRuntimeException());
+        }
 
 	}
 
     //Method to check room availability based on roomNumber
     private boolean checkDoorsMethod(String roomNumber) {
         
-        int [] rooms = {1, 5};
-        for (int i = 0; i < rooms.length; i++){
-            if (rooms[i] == Integer.parseInt(roomNumber)) {
-                return true; 
-            } 
-        } return false;
+        try{
+            // Check if the room number is within the valid range (1-5)  
+            if (Integer.parseInt(roomNumber) < 1 || Integer.parseInt(roomNumber) > 5) {
+                throw new IllegalArgumentException("Room number must be between 1 and 5.");
+            }
+            int[] rooms = {1, 5};
+            for (int room : rooms) {
+                if (room == Integer.parseInt(roomNumber)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NumberFormatException e){
+            // Handle the case where roomNumber was not a valid integer  
+            throw new IllegalArgumentException("Invalid room number format. Please enter a numeric value.", e);
+        }
     }
 }

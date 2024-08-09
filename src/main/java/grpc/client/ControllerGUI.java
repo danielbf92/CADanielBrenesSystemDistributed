@@ -448,15 +448,19 @@ public class ControllerGUI implements ActionListener{
             String userInput = entryLight.getText();
 
             CheckLightsRequest request = CheckLightsRequest.newBuilder().setRoomNumber(userInput).build();
+			try {
+				CheckLightsResponse response = stub.checkLights(request);
 
-            CheckLightsResponse response = stub.checkLights(request);
-
-            // Check if the room is available or not
-            if (response.getAvailable()) {
-                replyLight.setText("Room " + userInput + " is with the lights ON");
-            } else {
-                replyLight.setText("Room " + userInput + " is with the lights OFF");
-            }
+				// Check if the room is available or not
+				if (response.getAvailable()) {
+					replyLight.setText("Room " + userInput + " is with the lights ON");
+				} else {
+					replyLight.setText("Room " + userInput + " is with the lights OFF");
+				}
+			} catch (StatusRuntimeException error){
+				// Handle the specific error messages returned from the server  
+				replyLight.setText("Error: " + error.getStatus().getDescription());
+			}
 		} else if (label.equals("CheckDoorsService")) {
 			System.out.println("CheckLightsService to be called ...");
 
@@ -471,15 +475,19 @@ public class ControllerGUI implements ActionListener{
             String userInput = entryDoor.getText();
 
             CheckDoorsRequest request = CheckDoorsRequest.newBuilder().setRoomNumber(userInput).build();
+			try {
+            	CheckDoorsResponse response = stub.checkDoors(request);
 
-            CheckDoorsResponse response = stub.checkDoors(request);
-
-            // Check if the room is available or not
-            if (response.getAvailable()) {
-                replyDoor.setText("Room " + userInput + " is with the Doors Unlock");
-            } else {
-                replyDoor.setText("Room " + userInput + " is with the Doors Lock");
-            }
+				// Check if the room is available or not
+				if (response.getAvailable()) {
+					replyDoor.setText("Room " + userInput + " is with the Doors Unlock");
+				} else {
+					replyDoor.setText("Room " + userInput + " is with the Doors Lock");
+				}
+			} catch (StatusRuntimeException error){
+				// Handle the specific error messages returned from the server  
+				replyDoor.setText("Error: " + error.getStatus().getDescription());
+			}
 		} else if (label.equals("AdjustBrightnessService")) {
 			System.out.println("AdjustBrightnessService to be invoked ...");
 

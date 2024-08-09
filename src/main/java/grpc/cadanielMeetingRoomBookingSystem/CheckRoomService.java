@@ -69,12 +69,21 @@ public class CheckRoomService extends CheckRoomServiceImplBase {
     }
 
     private boolean checkRoomAvailabilityMethod(String roomNumber) {
-        int[] rooms = {1, 3, 5};
-        for (int room : rooms) {
-            if (room == Integer.parseInt(roomNumber)) {
-                return true;
+        try{
+            // Check if the room number is within the valid range (1-5)  
+            if (Integer.parseInt(roomNumber) < 1 || Integer.parseInt(roomNumber) > 5) {
+                throw new IllegalArgumentException("Room number must be between 1 and 5.");
             }
+            int[] rooms = {1, 3, 5};
+            for (int room : rooms) {
+                if (room == Integer.parseInt(roomNumber)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NumberFormatException e){
+            // Handle the case where roomNumber was not a valid integer  
+            throw new IllegalArgumentException("Invalid room number format. Please enter a numeric value.", e);
         }
-        return false;
     }
 }
