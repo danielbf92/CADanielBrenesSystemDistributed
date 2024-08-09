@@ -41,6 +41,7 @@ import grpc.cadanielSecuritySystem.CheckDoorsResponse;
 import grpc.cadanielSecuritySystem.LockUnlockDoorsGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 
@@ -363,7 +364,6 @@ public class ControllerGUI implements ActionListener{
 			 * 
 			 */
 			ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
-			CheckRoomServiceGrpc.CheckRoomServiceBlockingStub blockingStub = CheckRoomServiceGrpc.newBlockingStub(channel);
 
 			CheckRoomServiceGrpc.CheckRoomServiceBlockingStub stub = CheckRoomServiceGrpc.newBlockingStub(channel);
 
@@ -371,16 +371,18 @@ public class ControllerGUI implements ActionListener{
 
             RoomAvailabilityRequest request = RoomAvailabilityRequest.newBuilder().setRoomNumber(userInput).build();
 
-            RoomAvailabilityResponse response = stub.checkRoomAvailability(request);
-
-            // Check if the room is available or not
-            if (response.getAvailable()) {
-                replyRoom.setText("Room " + userInput + " is available");
-            } else {
-                replyRoom.setText("Room " + userInput + " is not available");
-            }
-
-            //reply1.setText(String.valueOf(response.getAvailable()));
+            try {
+				RoomAvailabilityResponse response = stub.checkRoomAvailability(request);
+				// Check if the room is available or not  
+				if (response.getAvailable()) {
+					replyRoom.setText("Room " + userInput + " is available");
+				} else {
+					replyRoom.setText("Room " + userInput + " is not available");
+				}
+			} catch (StatusRuntimeException error) {
+				// Handle the specific error messages returned from the server  
+				replyRoom.setText("Error: " + error.getStatus().getDescription());
+			}
 		
 		} else if (label.equals("RoomBooking")) {
 			System.out.println("RoomBooking to be invoked ...");
