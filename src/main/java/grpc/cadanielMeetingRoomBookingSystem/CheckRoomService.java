@@ -2,13 +2,18 @@ package grpc.cadanielMeetingRoomBookingSystem;
 
 import java.io.IOException;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceInfo;
+
 import grpc.cadanielMeetingRoomBookingSystem.CheckRoomServiceGrpc.CheckRoomServiceImplBase;
+import io.grpc.Metadata;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
-public class CheckRoomService extends CheckRoomServiceImplBase{
-    public static void main(String[] args) throws InterruptedException, IOException{
+public class CheckRoomService extends CheckRoomServiceImplBase {
+    public static void main(String[] args) throws InterruptedException, IOException {
         CheckRoomService checkRoomService = new CheckRoomService();
 
         int port = 50051;
@@ -18,36 +23,67 @@ public class CheckRoomService extends CheckRoomServiceImplBase{
             .build()
             .start();
 
+        // Register the service with jmDNS
+        registerServiceWithJmDNS("CheckRoomService", port);
+
         System.out.println("Service Check Room started, listening on " + port);
 
-		server.awaitTermination();
+        server.awaitTermination();
+    }
+
+    private static void registerServiceWithJmDNS(String serviceName, int port) throws IOException {
+        JmDNS jmdns = JmDNS.create();
+        String type = "_grpc._tcp.local."; // This type can be customized
+        String name = serviceName; // Service name
+        String description = "gRPC service for checking room availability";
+        
+        // Service info to be registered
+        ServiceInfo serviceInfo = ServiceInfo.create(type, name, description, port, "null");
+        jmdns.registerService(serviceInfo);
+        
+        System.out.println("Service registered via jmdns: " + serviceName);
     }
 
     @Override
-	public void checkRoomAvailability(RoomAvailabilityRequest request, StreamObserver<RoomAvailabilityResponse> responseObserver) {
-
-		//prepare the value to be set back
-        String roomNumber = request.getRoomNumber();
-
-        boolean isRoomAvailable = checkRoomAvailabilityMethod(roomNumber);
-		
-		//preparing the response message
-		RoomAvailabilityResponse reply = RoomAvailabilityResponse.newBuilder().setAvailable(isRoomAvailable).build();
-
-		responseObserver.onNext( reply ); 
-
-		responseObserver.onCompleted();
-
-	}
-
-    //Method to check room availability based on roomNumber
-    private boolean checkRoomAvailabilityMethod(String roomNumber) {
+    public void checkRoomAvailability(RoomAvailabilityRequest request, StreamObserver<RoomAvailabilityResponse> responseObserver) {
+        Metadata metadata = new Metadata();
+        String authToken = "my_secure_token_checkRoom";
+        metadata.get(Metadata.Key.of("auth-token", Metadata.ASCII_STRING_MARSHALLER));
         
-        int [] rooms = {1, 3, 5};
-        for (int i = 0; i < rooms.length; i++){
-            if (rooms[i] == Integer.parseInt(roomNumber)) {
-                return true; 
-            } 
-        } return false;
-}
+        if (!"my_secure_token_checkRoom".equals(authToken)) {
+            responseObserver.onError(Status.UNAUTHENTICATED.withDescription("Invalid auth token").asRuntimeException());
+            return;
+        }
+
+        try {
+            String roomNumber = request.getRoomNumber();
+            boolean isRoomAvailable = checkRoomAvailabilityMethod(roomNumber);
+            RoomAvailabilityResponse reply = RoomAvailabilityResponse.newBuilder().setAvailable(isRoomAvailable).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        } catch (NumberFormatException e) {
+            responseObserver.onError(Status.INVALID_ARGUMENT.withDescription("Invalid room number format.").asRuntimeException());
+        } catch (Exception e) {
+            responseObserver.onError(Status.INTERNAL.withDescription("An internal error occurred.").asRuntimeException());
+        }
+    }
+
+    private boolean checkRoomAvailabilityMethod(String roomNumber) {
+        try{
+            // Check if the room number is within the valid range (1-5)  
+            if (Integer.parseInt(roomNumber) < 1 || Integer.parseInt(roomNumber) > 5) {
+                throw new IllegalArgumentException("Room number must be between 1 and 5.");
+            }
+            int[] rooms = {1, 3, 5};
+            for (int room : rooms) {
+                if (room == Integer.parseInt(roomNumber)) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (NumberFormatException e){
+            // Handle the case where roomNumber was not a valid integer  
+            throw new IllegalArgumentException("Invalid room number format. Please enter a numeric value.", e);
+        }
+    }
 }

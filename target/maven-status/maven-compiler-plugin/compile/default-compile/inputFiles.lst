@@ -1,12 +1,14 @@
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\BrightnessRequestOrBuilder.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\BrightnessResponse.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\CheckLightsResponseOrBuilder.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CamaraServiceImpl.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\BrightnessServiceGrpc.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingRequestOrBuilder.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\BrightnessServiceImpl.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\CheckLightsService.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomAvailabilityResponse.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckDoorsService.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckCamaraResponse.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\AdjustBrightnessService.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\LockUnlockDoorsGrpc.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckDoorsResponseOrBuilder.java
@@ -16,13 +18,16 @@ c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedan
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\BrightnessRequest.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingServiceGrpc.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingServiceImpl.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckCamaraRequest.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\CheckRoomService.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingResponse.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\CheckRoomServiceGrpc.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\CheckRoomServiceImpl.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckCamaraResponseOrBuilder.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\TurnOnOffLightsImpl.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingRequest.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\CheckLightsResponse.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CamaraService.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckDoorsRequest.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingService.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\TurnOnOffLightsGrpc.java
@@ -34,3 +39,5 @@ c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedan
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielMeetingRoomBookingSystem\RoomBookingResponseOrBuilder.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckDoorsRequestOrBuilder.java
 c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielLightingSystem\CheckLightsRequestOrBuilder.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CheckCamaraRequestOrBuilder.java
+c:\Users\danie\Documents\NCI Higher Diploma SC\Distributed System\CA\caofficedaniel\src\main\java\grpc\cadanielSecuritySystem\CamaraServiceGrpc.java
